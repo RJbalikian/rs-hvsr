@@ -85,13 +85,20 @@ Set the service to start automatically on boot:
 sudo systemctl enable --now gpsd-i2c.service
 ```
 
-You may need to run `sudo systemctl daemon-reload` and/or `sudo systemctl start gpsd-i2c.service` to start the service.
+You will likely need to rest the service and deamon:
 
-Use `sudo journalctl -fu gpsd-i2c.service` to monitor the service.
+```bash
+sudo systemctl start gpsd-i2c.service
+sudo systemctl daemon-reload
+```
+
+Use the following command to check the status of/monitor the service:
+
+```bash
+sudo journalctl -fu gpsd-i2c.service
+```
 
 If the service starts, then you should see a new virtual serial port in `/dev/gpsd0`.  You can change the name of this device, if necessary, by editing the [gpsd-i2c.service](gpsd-i2c.service) file.
-
-You can also check the GPS data using `gpsmon` or `cgps`.
 
 Now, update the GPS defaults (the file may not exist)
 
