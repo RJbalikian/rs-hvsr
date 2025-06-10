@@ -78,15 +78,18 @@ Use ```sudo nano /etc/default/gpsd``` to open the file. Enter/paste the followin
 
 ```bash
 START_DAEMON="true"
-GPSD_OPTIONS="-n -G"
+GPSD_OPTIONS="-n -G -D 2"
 DEVICES="/dev/gpsd0"
-USBAUTO="true"
+USBAUTO="false"
 GPSD_SOCKET="/var/run/gpsd.sock"
 ```
 
 Once you've re-configured GPSD, you can attempt to restart it:
+
 ```bash
-sudo systemctl start gpsd
+sudo systemctl restart gpsd-i2c.service
+# Wait a couple seconds
+sudo systemctl restart gpsd
 ```
 
 Then check the logs to see that it's actually running:
