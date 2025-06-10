@@ -22,12 +22,33 @@ My results are:
 i2c-1   i2c             bcm2835 (i2c@7e804000)                  I2C adapter
 ```
 
-The number after the dash is your bus. In my case, it is 1.
+The number after the dash is your bus. In my case, the bus is 1.
 
-Now you can use `i2cdetect -y 1` to scan for all devices to confirm. (repalce `1` with whatever number your bus is).
+Now you can use  `i2cdetect -y 1` command to scan for all devices to confirm. (repalce `1` with whatever number your bus is).
 
+```bash
+i2cdetect -y 1
+```
+When I run this command, I get this:
+```bash
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+10: 10 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+70: -- -- -- -- -- -- -- --
+```
+This means my i2c address is `0x10` (column 0, row 10)
 
+Update the following variables near the top of the file in this repository at `/gpsd_update/gpsd_i2c.py`. I have included my values below:
 
+```python
+I2C_BUS_Value = 1
+I2C_ADDRESS_Value = 0x10
+```
 
 Move files to RS:
 
