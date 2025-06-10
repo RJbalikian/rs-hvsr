@@ -2,8 +2,8 @@
 
 # Set up GPS Input
 
-> These instructions and files work with the pimoroni pa1010d GPS breakout module. 
-> These have not been tested on the regular GPIO pins yet (just the dedicated i2c pins...with no Shake hat!)
+> These instructions and files have been testd and work provisionally with the pimoroni pa1010d GPS breakout module and SparkFun GPS Breakout - XA1110 (Qwiic). 
+> These have been tested while soldered to the i2c pins simultanously with the Shake hat attached.
 
 First, check that your I2C device is working. (if it is not, the rest of this guide will not work anyway).
 
