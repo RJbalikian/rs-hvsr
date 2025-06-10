@@ -7,7 +7,7 @@ Type=simple
 Restart=on-failure
 RestartSec=1
 WorkingDirectory=/etc/systemd/system/gpsd-i2c.service.d
-ExecStart=sudo /usr/bin/socat pty,rawer,link=/dev/gpsd0 EXEC:"python ./gpsd_i2c.py",pty,rawer
+ExecStart=sudo /usr/bin/socat pty,rawer,link=/dev/gpsd0 EXEC:"python3 ./gpsd_update/gpsd_i2c.py",pty,rawer
 
 [Install]
 RequiredBy=gpsd.service

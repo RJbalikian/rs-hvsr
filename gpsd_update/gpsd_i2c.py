@@ -7,6 +7,9 @@ import signal
 import sys
 import smbus2
 
+I2C_BUS_Value = 1
+I2C_ADDRESS_Value = 0x0D
+
 def parse_int(val, default):
     "Parse integer from string, first as decimal then as hex"
     try:
@@ -19,8 +22,8 @@ def parse_int(val, default):
     return result
 
 # Default to device 0-0042; can be overriden via environment
-I2C_BUS = parse_int(os.environ.get("I2C_BUS", None), 1)
-I2C_ADDRESS = parse_int(os.environ.get("I2C_ADDRESS", None), 0x10)
+I2C_BUS = parse_int(os.environ.get("I2C_BUS", None), I2C_BUS_Value)
+I2C_ADDRESS = parse_int(os.environ.get("I2C_ADDRESS", None), I2C_ADDRESS_Value)
 
 def handle_ctrl_c(sig, frame):
     "Exit handler"
@@ -74,20 +77,46 @@ def parse_response(gps_line):
     # All checks passed
     print(gps_chars)
 
-def read_gps(bus):
-    "read bytes from I2C device"
-    response = []
-    try:
-        while True:
-            byte = bus.read_byte(I2C_ADDRESS)
-            if byte == 255:
-                return
-            if byte == ord('\n'):
-                break
-            response.append(byte)
-        parse_response(response)
-    except IOError:
-        bus = smbus2.SMBus(I2C_BUS)
+#def read_gps(bus):
+#    "read bytes from I2C device"
+#    response = []
+#    try:
+#        while True:
+#            byte = bus.read_byte(I2C_ADDRESS)
+#            if byte == 255:
+#                return
+#            if byte == ord('\n'):
+#                break
+#            response.append(byte)
+#        parse_response(response)
+#    except IOError:
+#        bus = smbus2.SMBus(I2C_BUS)
+
+
+def read_gps():
+    max_retries = 3
+    retry_count = 0
+    
+    while retry_count < max_retries:
+        response = []  # Reset response for each attempt
+        try:
+            with smbus2.SMBus(I2C_BUS) as bus:
+                while True:
+                    byte = bus.read_byte(I2C_ADDRESS)
+                    if byte == 255:
+                        return
+                    if byte == ord('\n'):
+                        break
+                    response.append(byte)
+                parse_response(response)
+                return  # Success
+        except IOError as e:
+            retry_count += 1
+            print(f"I2C communication error (attempt {retry_count}/{max_retries}): {e}")
+            if retry_count >= max_retries:
+                raise
+            time.sleep(0.1)  # Brief delay before retry
+
 
 BUS = smbus2.SMBus(I2C_BUS)
 while True:
