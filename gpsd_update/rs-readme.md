@@ -125,4 +125,38 @@ Then check the logs to see that it's actually running:
 sudo journalctl -fu gpsd
 ```
 
-And as a final test, execute either `gpsmon` or `cgps -s` to view live data from GPSD.
+To ensure that the gps is reading correctly, execute either `gpsmon` or `cgps -s` to view live data from GPSD.
+
+## Update timing
+
+It is much simpler to use `chrony` to update your time than the NTP daemon that is installed by default (at least in my experience).
+
+
+To install chrony, execute the following commands (this did not work well unless I added the `--fix-missing` flag ):
+
+```bash
+sudo apt-get update
+sudo apt install chrony --fix-missing
+```
+Reboot
+
+`sudo reboot`
+
+
+
+```bash
+# Use GPS via shared memory (gpsd)
+refclock SHM 0 offset 0.5 delay 0.2 refid NMEA
+refclock SHM 1 offset 0.0 delay 0.2 refid PPS`
+```
+
+Restart your services
+```bash
+sudo systemctl restart gpsd
+sudo systemctl restart chrony
+
+```
+
+Use the `date` command to check if the date is updating now! (it should be :) )
+
+> NOTE: In my experience, the GPSD configuration is reset every time you reboot, so make sure to update it. I am working on a way to get this to not happen.
