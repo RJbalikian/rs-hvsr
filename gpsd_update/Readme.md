@@ -102,7 +102,13 @@ If the service starts, then you should see a new virtual serial port in `/dev/gp
 
 Now, update the GPS defaults (the file may not exist)
 
-Use ```sudo nano /etc/default/gpsd``` to open the file. Enter/paste the following:
+Use the following to open the gpsd defaults file.
+
+```bash 
+sudo nano /etc/default/gpsd
+```
+
+Enter/paste the following:
 
 ```bash
 START_DAEMON="true"
@@ -111,6 +117,14 @@ DEVICES="/dev/gpsd0"
 USBAUTO="false"
 GPSD_SOCKET="/var/run/gpsd.sock"
 ```
+
+It will try to change this file on boot to the default value. You can prevent this (and keep your GPS working) with the following:
+
+```bash
+sudo chattr +i /etc/default/gpsd
+```
+
+(You can undo this later using the following code: `sudo chattr -i /etc/default/gpsd`)
 
 Once you've re-configured GPSD, you can attempt to restart it:
 
