@@ -85,7 +85,7 @@ Set the service to start automatically on boot:
 sudo systemctl enable --now gpsd-i2c.service
 ```
 
-You will likely need to rest the service and deamon:
+You will likely need to reset the service and deamon:
 
 ```bash
 sudo systemctl start gpsd-i2c.service
@@ -98,11 +98,11 @@ Use the following command to check the status of/monitor the service:
 sudo journalctl -fu gpsd-i2c.service
 ```
 
-If the service starts, then you should see a new virtual serial port in `/dev/gpsd0`.  You can change the name of this device, if necessary, by editing the [gpsd-i2c.service](gpsd-i2c.service) file.
+If the service starts, then you should see a new virtual serial port in `/dev/gpsd0` (use `ls /dev` and see if there is an item called `gpsd0` in the /dev directory.  You can change the name of this device, if necessary, by editing the [gpsd-i2c.service](gpsd-i2c.service) file.
 
-Now, update the GPS defaults (the file may not exist)
+Now, update the GPS defaults.
 
-Use the following to open the gpsd defaults file.
+Use the following to open the gpsd defaults file for editing.
 
 ```bash 
 sudo nano /etc/default/gpsd
@@ -118,7 +118,7 @@ USBAUTO="false"
 GPSD_SOCKET="/var/run/gpsd.sock"
 ```
 
-It will try to change this file on boot to the default value. You can prevent this (and keep your GPS working) with the following:
+The current version of the Raspberry Shake OS will try to change this file on boot to the default value. You can prevent this (and keep your GPS working) by making the file uneditable with the following:
 
 ```bash
 sudo chattr +i /etc/default/gpsd
@@ -130,7 +130,6 @@ Once you've re-configured GPSD, you can attempt to restart it:
 
 ```bash
 sudo systemctl restart gpsd-i2c.service
-# Wait a couple seconds
 sudo systemctl restart gpsd
 ```
 
@@ -139,12 +138,11 @@ Then check the logs to see that it's actually running:
 sudo journalctl -fu gpsd
 ```
 
-To ensure that the gps is reading correctly, execute either `gpsmon` or `cgps -s` to view live data from GPSD.
+To ensure that the gps is reading correctly, execute either `gpsmon` (recommended) or `cgps -s` to view live data from GPSD. If using `gpsmon`, you should see NMEA sentences straming along the bottom of the terminal.
 
 ## Update timing
 
 It is much simpler to use `chrony` to update your time than the NTP daemon that is installed by default (at least in my experience).
-
 
 To install chrony, execute the following commands (this did not work well unless I added the `--fix-missing` flag ):
 
