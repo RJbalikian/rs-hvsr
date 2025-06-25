@@ -17,6 +17,18 @@ You can get your I2C bus using:
 
 ```i2cdetect -l```
 
+If nothing comes up (what I got from a blank Raspberry Shake install), you may need to enable i2c:
+
+```bash
+sudo nano /boot/config.txt
+```
+
+Then add the following line:
+
+`dtparam=i2c_arm=on`
+
+Now, reboot (`sudo reboot`) and run ```i2cdetect -l``` again.
+
 My results are:
 ``` 
 i2c-1   i2c             bcm2835 (i2c@7e804000)                  I2C adapter
