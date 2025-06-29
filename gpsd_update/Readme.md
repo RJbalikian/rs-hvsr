@@ -11,7 +11,9 @@ You wil need to find the address of your GPS module. This may be listed in the d
 
 Otherwise, you can check the properties if your module is connected to the I²C bus, you will need to install `i2c-tools` if not already installed
 
-```sudo apt install i2c-tools ```
+```bash
+sudo apt install i2c-tools
+```
 
 You can get your I2C bus using:
 
@@ -33,6 +35,11 @@ My results are:
 ``` 
 i2c-1   i2c             bcm2835 (i2c@7e804000)                  I2C adapter
 ```
+If this does not work, enter:
+```bash
+sudo raspi-config
+```
+This will pull up menu in your terminal. Go to Interface Options > I2C. Turn it on and exit the menu (you may need to click `Tab` to get to the Finish option).
 
 The number after the dash is your bus. In my case, the bus is 1.
 
