@@ -8,7 +8,7 @@ import sys
 import smbus2
 
 I2C_BUS_Value = 1
-I2C_ADDRESS_Value = 0x0D
+I2C_ADDRESS_Value = 0x10
 
 def parse_int(val, default):
     "Parse integer from string, first as decimal then as hex"
