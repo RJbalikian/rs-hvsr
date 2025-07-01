@@ -97,6 +97,12 @@ Install the necessary software (you will need to connect your Shake to internet 
 sudo apt install socat
 sudo python3 -m pip install smbus2
 ```
+The python version on my Shake OS is 3.5. It does not necessarily need to be updated, but it does need pip installed:
+
+```bash
+wget https://bootstrap.pypa.io/pip/3.5/get-pip.py
+sudo python3 get-pip.py
+```
 
 Set the service to start automatically on boot:
 
