@@ -178,6 +178,24 @@ sudo apt update
 sudo apt install pps-tools
 ```
 
+Check that you are getting PPS Data.
+```bash
+sudo ppstest /dev/pps0
+```
+
+You should get streaming output akin to this:
+```bash
+trying PPS source "/dev/pps0"
+found PPS source "/dev/pps0"
+ok, found 1 source(s), now start fetching data...
+source 0 - assert 1751599342.999402435, sequence: 153 - clear  0.000000000, sequence: 0
+source 0 - assert 1751599343.999398687, sequence: 154 - clear  0.000000000, sequence: 0
+source 0 - assert 1751599344.999395356, sequence: 155 - clear  0.000000000, sequence: 0
+source 0 - assert 1751599345.999393639, sequence: 156 - clear  0.000000000, sequence: 0
+source 0 - assert 1751599346.999390048, sequence: 157 - clear  0.000000000, sequence: 0
+...
+```
+
 ## Update timing
 
 It is much simpler to use `chrony` to update your time than the NTP daemon that is installed by default (at least in my experience).
