@@ -162,6 +162,16 @@ sudo journalctl -fu gpsd
 
 To ensure that the gps is reading correctly, execute either `gpsmon` (recommended) or `cgps -s` to view live data from GPSD. If using `gpsmon`, you should see NMEA sentences straming along the bottom of the terminal.
 
+## Use PPS timing
+Enable PPS in the `/boot/config.txt` by adding the following line:
+
+```bash
+dtoverlay=pps-gpio,gpiopin=18
+```
+
+Then reboot `sudo reboot`.
+
+
 ## Update timing
 
 It is much simpler to use `chrony` to update your time than the NTP daemon that is installed by default (at least in my experience).
