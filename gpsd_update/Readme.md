@@ -134,8 +134,8 @@ Enter/paste the following:
 
 ```bash
 START_DAEMON="true"
-GPSD_OPTIONS="-n -G -D 2"
-DEVICES="/dev/gpsd0"
+GPSD_OPTIONS="-n -N -F -G -D 2"
+DEVICES="/tmp/gpsd0 /dev/pps0"
 USBAUTO="false"
 GPSD_SOCKET="/var/run/gpsd.sock"
 ```
