@@ -171,6 +171,12 @@ dtoverlay=pps-gpio,gpiopin=18
 
 Then reboot `sudo reboot`.
 
+Ensure PPS Tools are installed:
+
+```bash
+sudo apt update
+sudo apt install pps-tools
+```
 
 ## Update timing
 
