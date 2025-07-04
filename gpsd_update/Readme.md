@@ -37,10 +37,11 @@ My results are:
 ``` 
 i2c-1   i2c             bcm2835 (i2c@7e804000)                  I2C adapter
 ```
-If this does not work, enter:
-```bash
-sudo raspi-config
-```
+> Note: If i2c setup does not work, use the rasperry pi config inteface:
+> ```bash
+> sudo raspi-config
+> ```
+> 
 This will pull up menu in your terminal. Go to Interface Options > I2C. Turn it on and exit the menu (you may need to click `Tab` to get to the Finish option).
 
 The number after the dash is your bus. In my case, the bus is 1.
