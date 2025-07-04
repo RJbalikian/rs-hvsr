@@ -27,7 +27,9 @@ sudo nano /boot/config.txt
 
 Then add the following line:
 
-`dtparam=i2c_arm=on`
+```bash
+dtparam=i2c_arm=on
+```
 
 Now, reboot (`sudo reboot`) and run ```i2cdetect -l``` again.
 
@@ -167,7 +169,7 @@ It is much simpler to use `chrony` to update your time than the NTP daemon that 
 To install chrony, execute the following commands (this did not work well unless I added the `--fix-missing` flag ):
 
 ```bash
-sudo apt-get update
+sudo apt update
 sudo apt install chrony --fix-missing
 ```
 Reboot
