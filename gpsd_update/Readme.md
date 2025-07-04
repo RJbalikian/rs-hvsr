@@ -97,7 +97,7 @@ sudo mv gpsd_update /etc/systemd/system/gpsd-i2c.service.d/
 Install the necessary software (you will need to connect your Shake to internet for this):
 
 ```bashMore actions
-sudo apt install socat
+sudo apt install socat # This may not be needed anymore, was used in previous version
 sudo apt install python3-pip #This will update python pip
 sudo python3 -m pip install smbus2 # install smbus2
 ```
@@ -121,7 +121,7 @@ Use the following command to check the status of/monitor the service:
 sudo journalctl -fu gpsd-i2c.service
 ```
 
-If the service starts, then you should see a new virtual serial port in `/dev/gpsd0` (use `ls /dev` and see if there is an item called `gpsd0` in the /dev directory.  You can change the name of this device, if necessary, by editing the [gpsd-i2c.service](gpsd-i2c.service) file.
+If the service starts, then you should see a new [named pipe](https://en.wikipedia.org/wiki/Named_pipe) at `/tmp/gpsd0` (use `ls /tmp` and see if there is an item called `gpsd0` in the /tmp directory.  You can change the name of this device, if necessary, by editing the [gpsd-i2c.service](gpsd-i2c.service) file.
 
 Now, update the GPS defaults.
 
@@ -147,7 +147,7 @@ The current version of the Raspberry Shake OS will try to change this file on bo
 sudo chattr +i /etc/default/gpsd
 ```
 
-(You can undo this later using the following code: `sudo chattr -i /etc/default/gpsd`)
+(You can undo this later using the following code: `sudo chattr -i /etc/default/gpsd` if you need to make any changes)
 
 Once you've re-configured GPSD, you can attempt to restart it:
 
@@ -164,15 +164,20 @@ sudo journalctl -fu gpsd
 To ensure that the gps is reading correctly, execute either `gpsmon` (recommended) or `cgps -s` to view live data from GPSD. If using `gpsmon`, you should see NMEA sentences straming along the bottom of the terminal.
 
 ## Use PPS timing
+[PPS (Pulse per second)](https://en.wikipedia.org/wiki/Pulse-per-second_signal) is a highly precise electrical signal that is sent at the "top" of the second every second. It is accurate to the nanosecond order of magnitude. 
+It is much more precise to set timing using PPS than the standard GPS signal, which may only be accurate to the 10s of milliseconds.
+
+However, PPS signals only tell the computer when the top of the second occurs. It does not tell the Shake what second (or even what day) it is...this is why we will use GPS and PPS in tandem!
+
 Enable PPS in the `/boot/config.txt` by adding the following line:
 
 ```bash
 dtoverlay=pps-gpio,gpiopin=18
 ```
 
-Then reboot `sudo reboot`.
+Then reboot (`sudo reboot`).
 
-Ensure PPS Tools are installed:
+Once the Shake starts again and you have used SSH to access the Shake again, ensure PPS Tools are installed:
 
 ```bash
 sudo apt update
@@ -197,7 +202,7 @@ source 0 - assert 1751599346.999390048, sequence: 157 - clear  0.000000000, sequ
 ...
 ```
 
-## Update timing
+## Use the GPS data to update the system time on the Shake
 
 It is much simpler to use `chrony` to update your time than the NTP daemon that is installed by default (at least in my experience).
 
@@ -207,9 +212,8 @@ To install chrony, execute the following commands (this did not work well unless
 sudo apt update
 sudo apt install chrony --fix-missing
 ```
-Reboot
 
-`sudo reboot`
+Now, reboot (`sudo reboot`), and log back into the Shake using your SSH connection.
 
 You need to update chrony configuration by editing `/etc/chrony/chrony.conf`:
 
@@ -232,9 +236,15 @@ Restart your services
 ```bash
 sudo systemctl restart gpsd
 sudo systemctl restart chrony
-
 ```
 
-Use the `date` command to check if the date is updating now! (it should be :) )
+Check if chrony is seeing your GPS time sources:
+```bash
+chronyc sources
+```
+You should see an entry named `GPS` and one named `PPS`. Wait for a minute, you should start to see values other than `0` in the `Reach` and `Rx` columns. 
+And the values at the far right of the table in the `PPS` row should be using nanoseconds (ns) as their scale.
 
-> NOTE: In my experience, the GPSD configuration is reset every time you reboot, so make sure to update it. I am working on a way to get this to not happen.
+If `PPS` is being used as the time source (this is our goal), there should also be an asterisk (`*`) next to the "`PPS`" on the left side of the table.
+
+Use the `date` command to check if the date is updating now! (it should be :) ). 
