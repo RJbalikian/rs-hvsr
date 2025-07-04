@@ -120,4 +120,4 @@ def read_gps():
 
 BUS = smbus2.SMBus(I2C_BUS)
 while True:
-    read_gps(BUS)
+    read_gps()
