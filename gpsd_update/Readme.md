@@ -240,12 +240,8 @@ You need to update chrony configuration by editing `/etc/chrony/chrony.conf`:
 sudo nano /etc/chrony/chrony.conf
 ```
 
-The file should end with the following lines. Delete any lines that start with refclock and put these in. (you may not need to include the makestep line if that's already in there)
+The file should end with the following lines. Delete any lines that start with refclock and put these in.
 ```bash
-# Step the system clock instead of slewing it if the adjustment is larger than
-# one second, but only in the first three clock updates.
-makestep 1 3
-
 # Use GPS via shared memory, pps directly from pps0
 refclock SHM 0 refid GPS precision 1e-1 offset 0.2 delay 0.2 minsamples 5
 refclock PPS /dev/pps0 refid PPS prefer trust
