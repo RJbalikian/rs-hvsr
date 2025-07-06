@@ -166,7 +166,7 @@ Then check the logs to see that it's actually running:
 sudo journalctl -fu gpsd
 ```
 
-To ensure that the gps is reading correctly, execute either `gpsmon` (recommended) or `cgps -s` to view live data from GPSD. If using `gpsmon`, you should see NMEA sentences straming along the bottom of the terminal.
+To ensure that the gps is reading correctly, execute either `gpsmon` or `cgps` to view live data from GPSD. You should see GPS data streaming along the bottom of your terminal.
 
 ## Use PPS timing
 [PPS (Pulse per second)](https://en.wikipedia.org/wiki/Pulse-per-second_signal) is a highly precise electrical signal that is sent at the "top" of the second every second. It is accurate to the nanosecond order of magnitude. 
@@ -174,7 +174,13 @@ It is much more precise to set timing using PPS than the standard GPS signal, wh
 
 However, PPS signals only tell the computer when the top of the second occurs. It does not tell the Shake what second (or even what day) it is...this is why we will use GPS and PPS in tandem!
 
-Enable PPS in the `/boot/config.txt` by adding the following line:
+Enable PPS in the `/boot/config.txt` using the following command:
+
+```bash
+sudo nano /boot/config.txt
+```
+
+Then add the following lines in that file:
 
 ```bash
 dtoverlay=pps-gpio,gpiopin=18
