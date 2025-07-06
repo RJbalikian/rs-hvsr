@@ -103,7 +103,7 @@ Install the necessary software (you will need to connect your Shake to internet 
 
 ```bashMore actions
 sudo apt install socat # This may not be needed anymore, was used in previous version
-sudo apt install python3-pip #This will update python pip
+sudo apt install python3-pip #This will update python (to 3.7 on my machine) and install pip
 sudo python3 -m pip install smbus2 # install smbus2
 ```
 
