@@ -11,6 +11,11 @@ You wil need to find the address of your GPS module. This may be listed in the d
 
 Otherwise, you can check the properties if your module is connected to the I²C bus, you will need to install `i2c-tools` if not already installed
 
+It is good practice to update your package manager's (i.e., apt) repositories:
+```bash
+sudo apt update
+```
+
 ```bash
 sudo apt install i2c-tools
 ```
