@@ -213,6 +213,14 @@ source 0 - assert 1751599346.999390048, sequence: 157 - clear  0.000000000, sequ
 ...
 ```
 
+> NOTE: I got the following output when my GPS did not have a proper view of the sky, even though everything else was set up correctly:
+> ```bash
+> trying PPS source "/dev/pps0"
+> found PPS source "/dev/pps0"
+> ok, found 1 source(s), now start fetching data...
+> time_pps_fetch() error -1 (Connection timed out)
+> ```
+
 ## Use the GPS data to update the system time on the Shake
 
 It is much simpler to use `chrony` to update your time than the NTP daemon that is installed by default (at least in my experience).
