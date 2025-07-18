@@ -76,9 +76,17 @@ hvsr(){
         sudo bash /opt/hvsr/hvsr_v1-3.sh -h
         return 0
     fi
-    echo "Starting HVSR script in screen session."
-    sleep 1
-    screen -mS hvsr sudo bash /opt/hvsr/hvsr_v1-3.sh "$@"
+
+    if command -v screen &> /dev/null; then
+        echo "Starting HVSR script in screen session."
+        sleep 1
+        screen -mS hvsr sudo bash /opt/hvsr/hvsr_v1-3.sh "$@"
+    else
+        echo "Starting HVSR script."
+        echo "WARNING! SCRIPT WILL STOP ON SSH DISCONNECT!"
+        sudo bash /opt/hvsr/hvsr_v1-3.sh "$@"
+    fi
+
     }
 ```
 
