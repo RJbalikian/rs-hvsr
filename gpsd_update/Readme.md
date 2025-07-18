@@ -101,10 +101,17 @@ sudo mv gpsd_update /etc/systemd/system/gpsd-i2c.service.d/
 
 Install the necessary software (you will need to connect your Shake to internet for this):
 
-```bashMore actions
-sudo apt install socat # This may not be needed anymore, was used in previous version
-sudo apt install python3-pip #This will update python (to 3.7 on my machine) and install pip
-sudo python3 -m pip install smbus2 # install smbus2
+```bash
+
+# This will update python (to 3.7 on my machine) and install pip
+sudo apt install python3-pip
+
+# install smbus2 python package
+sudo python3 -m pip install smbus2 
+
+# The following line may not be needed anymore, was used in previous version. Still testing.
+sudo apt install socat 
+
 ```
 
 Set the service to start automatically on boot:
