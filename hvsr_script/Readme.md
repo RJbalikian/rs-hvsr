@@ -38,6 +38,7 @@ Type `Ctrl + s` to save and `Ctrl + x` to exit the nano editor.
 > TROUBLESHOOTING
 > If you are doing this from a Windows computer, it may convert your file to DOS format, which uses a different "carraige return"/endline character than unix (which is what the shake uses).
 > If you can install the dos2unix tool on your shake (`sudo apt-get install dos2unix`) then run that command (`sudo dos2unix /path/to/hvsr_vx-x.sh`), you may be able to get around this issue.
+> If everything is installed and you get an error right when the hvsr script starts, troubleshoot by using the `hvsr -h` command.
 
 Using scp command, sometimes you can only be able to copy the file to the home directory. Then you will need to move the file to the specified hvsr folder. 
 If it allows you to transfer the file directly to the correct folder, than Alternative 1 below may work. Otherwise, try Alternative 2
@@ -77,7 +78,7 @@ hvsr(){
         return 0
     fi
 
-    if command -v screen &> /dev/null; then
+    if [ -d "/usr/bin/screen" ]; then
         echo "Starting HVSR script in screen session."
         sleep 1
         screen -mS hvsr sudo bash /opt/hvsr/hvsr_v1-3.sh "$@"
