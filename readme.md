@@ -46,3 +46,11 @@ In terminal:
     1. Follow instructions [here](https://github.com/RJbalikian/SPRIT-HVSR/tree/main/sprit/resources/hvsrscripts)
 8. Set up GPS (optional, still working on this)
     1. Follow instructions [here](https://github.com/RJbalikian/rs-hvsr/tree/main/gpsd_update)
+
+> NOTE: with the PiPower module set up as it is and the GPS chip and wifi dongle, it can help to reduce power usage to prevent a boot loop. I have found the following helpful: 
+> 1. Turn off Bluetooth: `sudo nano /boot/config.txt` and add the line: `dtoverlay=pi3-disable-bt`
+> 2. Reduce CPU speed: `sudo nano /boot/config.txt` and add the line: `arm_freq=600` (default is 700)
+> 3. Disable HDMI: Add the following line to your `/etc/rc.local` file before the `exit 0` line:
+>   ```bash
+>   /opt/vc/bin/tvservice -o
+>   ```
