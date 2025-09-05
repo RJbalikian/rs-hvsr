@@ -41,7 +41,7 @@ In terminal:
                 blacklist brcmutil
                 ````
 5.  Set up dongle (optional)
-    1. With our mediatek chip, to "isntall" firmware, just move the `mt7601u.bin` file to `/lib/firmware` directory on the shake
+    1. With our mediatek chip, to "install" its firmware, just move the `mt7601u.bin` file to `/lib/firmware` directory on the shake
 6. Set up HVSR Script
     1. Follow instructions [here](https://github.com/RJbalikian/SPRIT-HVSR/tree/main/sprit/resources/hvsrscripts)
 8. Set up GPS (optional, still working on this)
