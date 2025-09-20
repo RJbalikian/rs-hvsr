@@ -8,13 +8,17 @@ The following is an explanation of the structure:
 
 # Initial setup for HVSR Shakes
 
-In rs.local dashboard (in a web browser):
+In rs.local dashboard (with Shake on network or connected to ethernet cable, put `rs.local` in a web browser):
 1. Actions > Actions > Turn Offline Mode On (may require restart)
 2. Actions > Actions > Change SSH Password
 3. Settings > Data > Waveform Data Saving (set to something at least 60, more like 360 if large (>64gb) SD card; may require restart)
 
+# Network configuration
+Wifi is not recommended to have on during acquisition. However, you will likely need to have internet connectivity (wifi or otherwise) to set up the Shake initially. 
+
+## Set up networks
 In terminal:
-1. Add Wifi networks
+1. If using wifi to set up Shake, add Wifi networks
     1. Edit WPA Supplicant to include wifi networks of interest
     2. `sudo nano /etc/wpa_supplicant/wpa_supplicant.conf`
     3. Add your information as below:
@@ -25,11 +29,12 @@ In terminal:
          }
        ```
     5. Restart your shake: `sudo reboot` 
-2.  Edit configuration to allow ethernet and wifi:
+2.  Edit configuration to allow ethernet and wifi to be active at the same time (even if not using wifi):
     1.  `sudo nano /opt/settings/user/enable-wifi.conf`
     2.  If main line says `OFF`, change to `ON`
     3.  Restart shake: `sudo reboot`
-3.  Turn off internal wifi
+3. Optional: if [setting up HVSR script](https://github.com/RJbalikian/SPRIT-HVSR/tree/main/sprit/resources/hvsrscripts) or other configuration that requires network connectivity and you need wifi, do that before turning off wifi in next steps
+4.  Turn off internal wifi
     1.  Disable Device tree overlay for internal wifi
         1.  `sudo nano /boot/config.txt`
         2.  Paste the following anywhere (I usually do near the top): `dtoverlay=pi3-disable-wifi`
@@ -40,14 +45,14 @@ In terminal:
                 blacklist brcmfmac
                 blacklist brcmutil
                 ````
-5.  Set up dongle (optional)
-    1. With our mediatek chip, to "install" its firmware, just move the `mt7601u.bin` file to `/lib/firmware` directory on the shake
-6. Set up HVSR Script
+5. Set up HVSR Script
     1. Follow instructions [here](https://github.com/RJbalikian/SPRIT-HVSR/tree/main/sprit/resources/hvsrscripts)
-8. Set up GPS (optional, still working on this)
+6.  MEDIUM DIFFICULTY: Set up dongle (optional, not recommended for regular use and not recommended unless setting up GPS chip)
+    1. With our mediatek chip, to "install" its firmware, just move the `mt7601u.bin` file to `/lib/firmware` directory on the shake
+7. ADVANCED: Set up GPS Chip (this requires purchasing a i2c compatible GPS )
     1. Follow instructions [here](https://github.com/RJbalikian/rs-hvsr/tree/main/gpsd_update)
 
-> NOTE: with the PiPower module set up as it is and the GPS chip and wifi dongle, it can help to reduce power usage to prevent a boot loop. I have found the following helpful: 
+> NOTE: with a portable PiPower module set up and a GPS chip and wifi dongle, it can help to reduce power usage from non-essential modules to prevent a boot loop. I have found the following helpful: 
 > 1. Turn off Bluetooth: `sudo nano /boot/config.txt` and add the line: `dtoverlay=pi3-disable-bt`
 > 2. Reduce CPU speed: `sudo nano /boot/config.txt` and add the line: `arm_freq=600` (default is 700)
 > 3. Disable HDMI: Add the following line to your `/etc/rc.local` file before the `exit 0` line:
