@@ -12,7 +12,7 @@ The following is an explanation of the structure:
 
 In rs.local dashboard (with Shake on network or connected to ethernet cable, put `rs.local` in a web browser):
 1. Actions > Actions > Turn Offline Mode On (may require restart)
-2. Actions > Actions > Change SSH Password
+2. Actions > Actions > Change SSH Password (not absolutely necessary, but recommended by the Raspberry Shake company)
 3. Settings > Data > Waveform Data Saving (set to something at least 60, more like 360 if large (>64gb) SD card; may require restart)
 
 # Network configuration
