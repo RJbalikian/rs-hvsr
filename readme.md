@@ -36,6 +36,7 @@ In terminal:
 3. Optional: if [setting up HVSR script](https://github.com/RJbalikian/SPRIT-HVSR/tree/main/sprit/resources/hvsrscripts) or other configuration that requires network connectivity and you need wifi, do that before turning off wifi in next steps
 4.  Turn off internal wifi
 > NOTE: after completing Step 4 (turning off wifi), you must use an Ethernet cable to connect to the Shake via SSH)
+
     1.  Disable Device tree overlay for internal wifi
         1.  `sudo nano /boot/config.txt`
         2.  Paste the following anywhere (I usually do near the top): `dtoverlay=pi3-disable-wifi`
