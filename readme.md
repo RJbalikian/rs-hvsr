@@ -35,6 +35,7 @@ In terminal:
     3.  Restart shake: `sudo reboot`
 3. Optional: if [setting up HVSR script](https://github.com/RJbalikian/SPRIT-HVSR/tree/main/sprit/resources/hvsrscripts) or other configuration that requires network connectivity and you need wifi, do that before turning off wifi in next steps
 4.  Turn off internal wifi
+> NOTE: after completing Step 4 (turning off wifi), you must use an Ethernet cable to connect to the Shake via SSH)
     1.  Disable Device tree overlay for internal wifi
         1.  `sudo nano /boot/config.txt`
         2.  Paste the following anywhere (I usually do near the top): `dtoverlay=pi3-disable-wifi`
@@ -45,11 +46,12 @@ In terminal:
                 blacklist brcmfmac
                 blacklist brcmutil
                 ````
+    3. Reboot: 'sudo reboot'
 
 # Optional set up steps
 5. Set up HVSR Script (recommended for HVSR applications!)
     1. Follow instructions [here](https://github.com/RJbalikian/SPRIT-HVSR/tree/main/sprit/resources/hvsrscripts)
-6.  MEDIUM DIFFICULTY: Set up dongle (optional, not recommended for regular use and not recommended unless setting up GPS chip)
+6.  MEDIUM DIFFICULTY, should only be done if not using USB GPS or if step 7 is also done): Set up dongle (optional, not recommended for regular use and not recommended unless setting up GPS chip)
     1. With our mediatek chip, to "install" its firmware, just move the `mt7601u.bin` file to `/lib/firmware` directory on the shake
 7. ADVANCED: Set up GPS Chip (this requires purchasing a i2c compatible GPS )
     1. Follow instructions [here](https://github.com/RJbalikian/rs-hvsr/tree/main/gpsd_update)
