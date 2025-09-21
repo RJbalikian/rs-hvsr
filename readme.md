@@ -8,6 +8,8 @@ The following is an explanation of the structure:
 
 # Initial setup for HVSR Shakes
 
+You will need to connect a computer to your shake, either via Ethernet (easier) or via WiFi to carry out the following steps:
+
 In rs.local dashboard (with Shake on network or connected to ethernet cable, put `rs.local` in a web browser):
 1. Actions > Actions > Turn Offline Mode On (may require restart)
 2. Actions > Actions > Change SSH Password
