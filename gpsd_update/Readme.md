@@ -147,7 +147,7 @@ Enter/paste the following:
 
 ```bash
 START_DAEMON="true"
-GPSD_OPTIONS="-n -N -F -G -D 2"
+GPSD_OPTIONS="-n -F -G -D 2"
 DEVICES="/tmp/gpsd0 /dev/pps0"
 USBAUTO="false"
 GPSD_SOCKET="/var/run/gpsd.sock"
@@ -251,7 +251,7 @@ The file should end with the following lines. Delete any lines that start with r
 ```bash
 # Use GPS via shared memory, pps directly from pps0
 refclock SHM 0 refid GPS precision 1e-1 offset 0.2 delay 0.2 minsamples 5
-refclock PPS /dev/pps0 refid PPS prefer trust
+refclock PPS /dev/pps0 refid PPS lock GPS prefer trust
 ```
 
 Restart your services
