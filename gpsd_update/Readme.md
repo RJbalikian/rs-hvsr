@@ -16,6 +16,11 @@ It is good practice to update your package manager's (i.e., apt) repositories:
 sudo apt update
 ```
 
+> **TROUBLESHOOTING** The "buster" release that is often used for Raspberry Shake OS has been archived.
+> You may need to update your sources list for the apt package manager. The following has been shown to work:
+> Update the list in sources.list document using `sudo nano /etc/apt/sources.list`. Comment out any active lines and paste the following: `deb https://legacy.raspbian.org/raspbian/ buster main contrib non-free rpi`
+> Also use `sudo nano /etc/apt/sources.list.d/raspi.list` The only active/non-commented line should say: `deb http://archive.raspberrypi.org/debian/ buster main ui`
+
 ```bash
 sudo apt install i2c-tools
 ```
