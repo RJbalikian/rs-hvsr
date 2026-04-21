@@ -114,9 +114,6 @@ sudo apt install python3-pip
 # install smbus2 python package
 sudo python3 -m pip install smbus2 
 
-# The following line may not be needed anymore, was used in previous version. Still testing.
-sudo apt install socat 
-
 ```
 
 Set the service to start automatically on boot:
