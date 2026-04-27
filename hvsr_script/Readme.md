@@ -92,6 +92,11 @@ hvsr(){
 
 Type `Ctrl + s` to save and `ctrl + x` to exit nano and return to your terminal.
 
+### Using the `screen` tool
+
+> TROUBLESHOOTING The "buster" release that is often used for Raspberry Shake OS has been archived. You may need to update your sources list for the apt package manager. The following has been shown to work: Update the list in sources.list document using sudo nano  /etc/apt/sources.list. Comment out any active lines and paste the following: deb https://legacy.raspbian.org/raspbian/ buster main contrib non-free rpi Also use sudo nano /etc/apt/sources.list.d/raspi.list The only active/non-commented line should say: deb http://archive.raspberrypi.org/debian/ buster main ui
+
+
 You will need to install the `screen` tool for this to work, at least if you want the HVSR script to continue running after you disconnect your SSH device. 
 Your Shake will need to be connected to the internet to install the `screen` tool.
 
