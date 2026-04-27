@@ -2,12 +2,14 @@
 
 # Set up GPS Input
 
-> These instructions and files have been testd and work provisionally with the pimoroni pa1010d GPS breakout module and SparkFun GPS Breakout - XA1110 (Qwiic). 
+> These instructions and files have been testd and work provisionally with the Adafruit and pimoroni pa1010d GPS breakout modules and SparkFun GPS Breakout - XA1110 (Qwiic). 
 > These have been tested while soldered to the i2c pins simultanously with the Shake hat attached.
 
-First, check that your I2C device is working. (if it is not, the rest of this guide will not work anyway).
+First, check that your I2C GPS device is working. (if it is not, the rest of this guide will not work anyway).
 
-You wil need to find the address of your GPS module. This may be listed in the documentation for your module.  
+Instructions for wiring a GPS chip are [here](https://github.com/RJbalikian/rs-hvsr/blob/main/gpsd_update/i2c_chip_hardwiring_readme.md). **NOTE** that these instructions may be generalizable, they are written specifically for the [Adafruit pa1010d breakout](https://www.adafruit.com/product/4415).
+
+You will need to find the address of your GPS module. This may be listed in the documentation for your module.  
 
 Otherwise, you can check the properties if your module is connected to the I²C bus, you will need to install `i2c-tools` if not already installed
 
