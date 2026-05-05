@@ -45,15 +45,15 @@ If it allows you to transfer the file directly to the correct folder, than Alter
 
 #### Alternative 1
 ```bash
-scp "/path/to/local/copy/of/hvsr_v1-3.sh" "myshake@rs.local:/opt/hvsr/"
+scp "/path/to/local/copy/of/hvsr_v1-4.sh" "myshake@rs.local:/opt/hvsr/"
 ```
 
 ### Alternative 2
 ```bash
-scp "/path/to/local/copy/of/hvsr_v1-3.sh" "myshake@rs.local:"
+scp "/path/to/local/copy/of/hvsr_v1-4.sh" "myshake@rs.local:"
 ssh myshake@rs.local
 sudo mkdir /opt/hvsr
-sudo mv ~/hvsr_v1-3.sh /opt/hvsr/hvsr_v1-3.sh
+sudo mv ~/hvsr_v1-4.sh /opt/hvsr/hvsr_v1-4.sh
 ```
 
 ### Filezilla
@@ -74,18 +74,18 @@ Enter the following lines (the first two lines below are not strictly necessary,
 ```bash
 hvsr(){
     if [ "$1" == "-h" ] ; then
-        sudo bash /opt/hvsr/hvsr_v1-3.sh -h
+        sudo bash /opt/hvsr/hvsr_v1-4.sh -h
         return 0
     fi
 
     if [ -e "/usr/bin/screen" ]; then
         echo "Starting HVSR script in screen session."
         sleep 1
-        screen -mS hvsr sudo bash /opt/hvsr/hvsr_v1-3.sh "$@"
+        screen -mS hvsr sudo bash /opt/hvsr/hvsr_v1-4.sh "$@"
     else
         echo "Starting HVSR script."
         echo "WARNING! SCRIPT WILL STOP ON SSH DISCONNECT!"
-        sudo bash /opt/hvsr/hvsr_v1-3.sh "$@"
+        sudo bash /opt/hvsr/hvsr_v1-4.sh "$@"
     fi
 }
 ```
@@ -175,7 +175,7 @@ This will print up a help file to your terminal, which will show all the flags a
 
 For example, see below:
 ```text
-Usage: hvsr_v1-3.sh CAPITALIZED WORD after option indicates variable to which that argument gets passed.
+Usage: hvsr_v1-4.sh CAPITALIZED WORD after option indicates variable to which that argument gets passed.
 
 	OPTION |   ARGUMENT   | DESCRIPTION       
 	-------|--------------|-------------------
