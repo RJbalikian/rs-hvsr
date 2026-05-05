@@ -39,8 +39,8 @@ Remove enclosure lid, Shake hat (blue chip), and Shake from enclosure.
     * SDA - Pin 3 (Also called GPIO 2)
     * SCL - Pin 5 (Also called GPIO 3)
     * GND - Pin 9 (Also called Ground)
-  * You will also need to solder the PPS wire. When the Pi is oriented as above, this is the 9th pin/hole from the top on the outer row (left side):
-    * PPS - Pin 18 (GPIO 24)
+  * You will also need to solder the PPS wire. When the Pi is oriented as above, this is the 6th pin/hole from the top on the outer row (left side):
+    * PPS - Pin 12 (GPIO 18)
 
 ## Reconnect
 Reconnect the Raspberry Pi (green) board to the standoffs in the enclosure. Screw in the standoffs above that. Add the Shake (blue) board on those standoffs. Before putting in the final screws through the holes in the Shake hat, there is enough clearance in the enclosure for the Adafruit Pa1010D GPS chip to be attached on top of the blue board with the same screw that connects the Shake hat to the standoffs. This allows the status LEDs to be used and prevents the chip from moving in the enclosure.
