@@ -170,10 +170,10 @@ START_TIMESTAMP=$(date -d "@$(( $(date +%s) + $STARTUP_TIME ))" +"%s")
 END_TIMESTAMP=$(date -d "@$(( $(date +%s) + $STARTUP_TIME + $S_DURATION ))" +"%s")
 END_TIME=$(date -d @"$END_TIMESTAMP" +"%H:%M:%S")
 
-#Defaults
-LAT=""
-LON=""
-ALT=""
+# Defaults for Latitude, longitude, and altitude
+LAT="LAT_NA"
+LON="LON_NA"
+ALT="ALT_NA"
 
 TPV=$(gpspipe -w -n 5 2>/dev/null | grep '"class":"TPV"' | head -n 1)
 
@@ -298,7 +298,19 @@ eMIN=$(date -d "$END_TIME" '+%M')
 eSEC=$(date -d "$END_TIME" '+%S')
 eTIME="$eYEAR,$eMON,$eDAY,$eHOUR,$eMIN,$eSEC"
 
-fpath="$HVSRDATA_DIR/"$SITE_NAME"_"$STATION"_$(date -d "$START_TIME" '+%j_%Y-%m-%d_%H%M')-$(date -d "$END_TIME" '+%H%M')_${LON:0:8}E_${LAT:0:8}N.mseed"
+if [ $LAT = "LAT_NA" ]; then
+    LATSTR=""
+else
+    LATSTR="_"${LAT:0:9}"N"
+fi
+
+if [ $LON = "LON_NA" ]; then
+    LONSTR=""
+else
+    LONSTR="_"${LON:0:9}"E"
+fi
+
+fpath="$HVSRDATA_DIR/"$SITE_NAME"_"$STATION"_$(date -d "$START_TIME" '+%j_%Y-%m-%d_%H%M')-$(date -d "$END_TIME" '+%H%M')$LONSTR$LATSTR.mseed"
 echo "Exporting site data to  $fpath"
 
 # slinktool will query data on shake, between start and end time, and save it as an mseed file in HVSR_DIR
