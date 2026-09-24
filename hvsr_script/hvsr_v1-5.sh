@@ -35,7 +35,7 @@ STATION=$(ls "/opt/data/archive/$CURR_YEAR/AM")
 HVSR_DIR="/opt/hvsr"
 HVSRDATA_DIR="/opt/hvsr/data"
 EXPORT_DISK="/dev/sda1"
-DO_EXPORT=false
+DO_EXPORT=true
 
 # Time to wait for startup and powerdown at start/after end of acquisition.PDOWN_TIME Not currently used
 STARTUP_TIME=15
@@ -49,7 +49,7 @@ fi
 
 # READ IN OPTIONS
 # Get options
-while getopts 'n:t:d:c:s:h:ve' opt; do
+while getopts 'n:td:c:s:h:ve' opt; do
     case "$opt" in
         n) SITE_NAME="$OPTARG"
             echo $SITE_NAME
@@ -64,43 +64,8 @@ while getopts 'n:t:d:c:s:h:ve' opt; do
             # Get the last USB storage device (we only have one, so should be ok?)
             # Not sure how this works, but it does
             # Check next positional parameter
-            DO_EXPORT=true
-            eval nextopt=\${$OPTIND}
-            # existing or starting with dash?
-            if [[ -n "$nextopt" && "$nextopt" != -* ]] ; then
-                OPTIND=$((OPTIND + 1))
-                level=$nextopt
-            else
-                level=1
-            fi
-
-            # Get specified export disk, or use last (alphabetic) detected one
-            if [[ -n "$nextopt" && "$nextopt" != -* ]]; then
-                EXPORT_PARTITION="$nextopt"
-
-                if ! [[ "$EXPORT_PARTITION" =~ ^[0-9]{1,3}$ ]]; then
-                    echo "$EXPORT_PARTITION specified as export disk"
-		        else
-                    EXPORT_DATE=$(printf "%03d" "$EXPORT_PARTITION")
-                    USBDISKS=$(readlink -f /dev/disk/by-id/usb*)
-                    EXPORT_PARTITION=$(echo "$USBDISKS" | tail -n 1)
-                    echo "Exporting files on USB disk detected at $EXPORT_PARTITION from day $EXPORT_DATE"
-                fi
-
-            else
-                # Handle the case when the argument is missing
-                USBDISKS=$(readlink -f /dev/disk/by-id/usb*)
-                EXPORT_PARTITION=$(echo "$USBDISKS" | tail -n 1)
-
-                if [[ -z "$EXPORT_PARTITION" ]]; then
-                    echo "No USB disks detected. Data will not be exported to USB"
-                    # If not specified and not detected, do not export
-                    DO_EXPORT=false
-                else
-                    echo "No export disk specified, will attempt to use USB disk detected at $EXPORT_PARTITION"
-                fi
-            fi
-
+            DO_EXPORT=false
+	    ;;
 	  \?) printf "$USAGE_TEXT" exit 1 ;;
     esac
 done
@@ -265,18 +230,52 @@ echo "Exporting site data to  $fpath"
 
 # slinktool will query data on shake, between start and end time, and save it as an mseed file in HVSR_DIR
 slinktool -S "AM_$STATION:EH?" -tw "$sTIME:$eTIME" -o "$fpath" $VERBOSE :18000
+echo "HVSR site data saved successfully to $fpath"
+
 
 if "$DO_EXPORT"; then
-    USBDISKS=$(readlink -f /dev/disk/by-id/usb*)
-
-    EXPORT_PARTITION=$(echo "$USBDISKS" | tail -n 1)
-
-    if [[ -z "$EXPORT_PARTITION" ]]; then
-        echo "No USB disks detected. Data not exported"
-        exit 1
+    eval nextopt=\${$OPTIND}
+    # existing or starting with dash?
+    if [[ -n "$nextopt" && "$nextopt" != -* ]] ; then
+        OPTIND=$((OPTIND + 1))
+        level=$nextopt
+    else
+        level=1
     fi
 
-    echo "Using USB partition: $EXPORT_PARTITION"
+    # Get specified export disk, or use last (alphabetic) detected one
+    # check if disk is specified first
+    if [[ -n "$nextopt" && "$nextopt" != -* ]]; then
+        EXPORT_PARTITION="$nextopt"
+
+        if ! [[ "$EXPORT_PARTITION" =~ ^[0-9]{1,3}$ ]]; then
+            echo "$EXPORT_PARTITION specified as export disk"
+        else
+            EXPORT_DATE=$(printf "%03d" "$EXPORT_PARTITION")
+            USBDISKS=$(readlink -f /dev/disk/by-id/usb*)
+            EXPORT_PARTITION=$(echo "$USBDISKS" | tail -n 1)
+            echo "Exporting files on USB disk detected at $EXPORT_PARTITION from day $EXPORT_DATE"
+        fi
+
+    else
+        # DEFAULT: when no argument specified, find disk 
+        USBDISKS=$(readlink -f /dev/disk/by-id/usb*)
+        EXPORT_PARTITION=$(echo "$USBDISKS" | tail -n 1)
+
+        if [[ -z "$EXPORT_PARTITION" || ! -b "$EXPORT_PARTITION" ]]; then
+            echo "No USB disks detected. Data will not be exported to USB"
+            # If not specified and not detected, do not export
+            DO_EXPORT=false
+        else
+            echo "No export disk specified, will attempt to use USB disk detected at $EXPORT_PARTITION"
+        fi
+    fi
+fi
+
+# Exited out of conditional and went back in just to check that we're still good to export
+# Mount drive to shake disk then export
+if "$DO_EXPORT"; then
+    echo "Using USB partition for export: $EXPORT_PARTITION"
 
     MOUNTED_DIR="/mnt/usbdrive"
 
@@ -293,9 +292,8 @@ if "$DO_EXPORT"; then
             echo "USB copy failed."
         fi
         sudo umount "$MOUNTED_DIR"
-
-        echo "USB Export successful."
     fi
+fi
 
 #RASPBERRY SHAKE SYSTEM CHECK HERE
 # If this is being run on a raspberry shake, poweroff instrument
